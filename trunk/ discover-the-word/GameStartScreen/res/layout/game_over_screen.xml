@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/youLostTheGameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/you_lost_the_game" />
+
+    <Button
+        android:id="@+id/yesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/youLostTheGameText"
+        android:layout_below="@+id/youLostTheGameText"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="27dp"
+        android:text="@string/yes_button" />
+
+    <Button
+        android:id="@+id/noButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/yesButton"
+        android:layout_alignBottom="@+id/yesButton"
+        android:layout_alignRight="@+id/youLostTheGameText"
+        android:layout_marginRight="14dp"
+        android:text="@string/no_button" />
+
+    <TextView
+        android:id="@+id/pontuationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/youLostTheGameText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="64dp"
+        android:text="@string/pontuation_text" />
+
+</RelativeLayout>
