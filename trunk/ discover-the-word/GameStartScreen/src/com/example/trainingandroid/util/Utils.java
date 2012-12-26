@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.example.trainingandroid.GameStartScreen;
 import com.example.trainingandroid.constants.Constants;
+import com.example.trainingandroid.entity.ScoreEntity;
 
 public class Utils {
 	
@@ -32,7 +33,7 @@ public class Utils {
 		return result;
 	}
 	
-	public static List<String> readFileAndPutWordsInList (Context context){
+	public static final List<String> readFileAndPutWordsInList (Context context){
 		List<String> list = new ArrayList<String>();
 		String line = null;
 		try {
@@ -49,10 +50,20 @@ public class Utils {
 		return list;
 	}
 	
-	public static int returnRandomNumber(){
+	public static final int returnRandomNumber(int listSize){
 		Random random = new Random();
-		int num = random.nextInt(GameStartScreen.listSize);
+		int num = random.nextInt(listSize);
 		return num;
+	}
+	
+	public static final String[] mountStringsListScore(List<ScoreEntity> list){
+		int size = list.size();
+		String[] result = new String[size];
+		for (int i = 0; i < size; i++) {
+			ScoreEntity score = list.get(i);
+			result[i] = score.getPlayerName() + " " + score.getPontuation();
+		}
+		return result;
 	}
 	
 }

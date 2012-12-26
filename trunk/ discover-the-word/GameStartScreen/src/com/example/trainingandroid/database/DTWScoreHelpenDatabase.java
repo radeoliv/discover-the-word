@@ -13,7 +13,7 @@ import com.example.trainingandroid.entity.ScoreEntity;
 
 public class DTWScoreHelpenDatabase extends SQLiteOpenHelper {
 
-	private static final int versionScoreDatabase = 32;
+	private static final int versionScoreDatabase = 33;
 
 	private static String dbName = "ScoreDB";
 	

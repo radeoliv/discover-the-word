@@ -27,4 +27,7 @@
 	<string name="yes_button">Yes</string>
 	<string name="no_button">No</string>    
 	
+	<!-- Game High Score Screen -->
+	<string name="game_high_score_screen">High Score</string>
+	
 </resources>

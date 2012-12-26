@@ -19,27 +19,24 @@ import com.example.trainingandroid.util.Utils;
 public class GameStartScreen extends Activity{
 	
 	private Button startGame;
+	private Button scoreGame;
 	
-	public static List<String> wordsList;
-	public static int listSize;
+	private static List<String> wordsList;
+	private static int listSize;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.game_start_screen);
 		
-//		if(wordsList == null){
-//			Toast.makeText(this, "LOADING...", Toast.LENGTH_LONG).show();
-//			wordsList = Utils.readFileAndPutWordsInList(this);
-//			listSize = wordsList.size();
-//		}
-//		start();
+		if(wordsList == null){
+			wordsList = Utils.readFileAndPutWordsInList(this);
+			listSize = wordsList.size();
+		}
+		start();
 		
-//		// IMPORTANTE NÃO DELETE!!!
-//		DTWScoreHelpenDatabase db = new DTWScoreHelpenDatabase(this);
-//		List<ScoreEntity> list = db.getAllScores();
-//		printListEntities(list);
-//		
+		// IMPORTANTE NÃO DELETE!!!
+		
 //		ScoreEntity sampleToDelet = list.get(1);
 //		db.deleteScore(sampleToDelet, db.getWritableDatabase());
 //		list = db.getAllScores();
@@ -47,6 +44,7 @@ public class GameStartScreen extends Activity{
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private void printListEntities(List<ScoreEntity> list){
 		Log.v("ListSize", list.size() + "");
 		for(ScoreEntity entity : list){
@@ -57,7 +55,9 @@ public class GameStartScreen extends Activity{
 	
 	private void start() {
 		configStartGameButton();
+		configScoreGameButton();
 	}
+	
 
 	private void configStartGameButton() {
 		startGame = (Button)findViewById(R.id.startGame);
@@ -77,10 +77,42 @@ public class GameStartScreen extends Activity{
 		it.putExtras(params);
 		startActivity(it);
 	}
+
+	private void configScoreGameButton() {
+		scoreGame = (Button)findViewById(R.id.highScore);
+		scoreGame.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				GameStartScreen.this.callScoreScreen();
+			}
+		});
+	}
+	
+	protected void callScoreScreen() {
+		Intent it = new Intent(this, GameScoreScreen.class);
+		startActivity(it);
+	}
+
 	
 	public static String returnRandomWord(){
-		int randomNumber = Utils.returnRandomNumber();
+		int randomNumber = Utils.returnRandomNumber(listSize);
 		return wordsList.get(randomNumber);
+	}
+
+	public static List<String> getWordsList() {
+		return wordsList;
+	}
+
+	public static void setWordsList(List<String> wordsList) {
+		GameStartScreen.wordsList = wordsList;
+	}
+
+	public static int getListSize() {
+		return listSize;
+	}
+
+	public static void setListSize(int listSize) {
+		GameStartScreen.listSize = listSize;
 	}
 	
 }
