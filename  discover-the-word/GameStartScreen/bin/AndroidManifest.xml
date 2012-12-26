@@ -26,8 +26,13 @@
         </activity>
 
         <activity
-            android:name="com.example.trainingandroid.EndGameScreen"
+            android:name=".EndGameScreen"
             android:label="@string/game_over_activity" >
+        </activity>
+
+        <activity
+            android:name=".GameScoreScreen"
+            android:label="@string/game_high_score_screen" >
         </activity>
     
     </application>
