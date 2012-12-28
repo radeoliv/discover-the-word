@@ -13,7 +13,7 @@ import com.example.trainingandroid.entity.ScoreEntity;
 
 public class DTWScoreHelpenDatabase extends SQLiteOpenHelper {
 
-	private static final int versionScoreDatabase = 33;
+	private static final int versionScoreDatabase = 34;
 
 	private static String dbName = "ScoreDB";
 	
@@ -53,6 +53,12 @@ public class DTWScoreHelpenDatabase extends SQLiteOpenHelper {
 		insertScore(entity3, db);
 		ScoreEntity entity4 = new ScoreEntity("Jordan", 17);
 		insertScore(entity4, db);
+		ScoreEntity entity5 = new ScoreEntity("Jordan", 18);
+		insertScore(entity5, db);
+		ScoreEntity entity6 = new ScoreEntity("Rose", 4);
+		insertScore(entity6, db);
+		ScoreEntity entity7 = new ScoreEntity("Billy", 1);
+		insertScore(entity7, db);
 	}
 
 	@Override
