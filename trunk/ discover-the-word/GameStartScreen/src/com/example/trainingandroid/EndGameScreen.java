@@ -81,10 +81,17 @@ public class EndGameScreen extends Activity{
 		noButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Chamar tela de Score!!!
-				EndGameScreen.this.callGameStartScreen();
+				EndGameScreen.this.callGameScoreScreen();
 			}
 		});
+	}
+	
+	protected void callGameScoreScreen(){
+		Bundle params = new Bundle();
+		params.putInt(Constants.PONTUATION, pontuation);
+		Intent it = new Intent(this, GameScoreScreen.class);
+		it.putExtras(params);
+		startActivity(it);
 	}
 	
 	protected void callGameStartScreen() {
