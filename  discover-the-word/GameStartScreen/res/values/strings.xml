@@ -29,5 +29,6 @@
 	
 	<!-- Game High Score Screen -->
 	<string name="game_high_score_screen">High Score</string>
+	<string name="game_high_score_back_to_title">Back to Title</string>
 	
 </resources>
