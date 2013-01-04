@@ -3,7 +3,6 @@ package com.example.trainingandroid;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.example.trainingandroid.constants.Constants;
-import com.example.trainingandroid.database.DTWScoreHelpenDatabase;
 import com.example.trainingandroid.entity.ScoreEntity;
 import com.example.trainingandroid.util.Utils;
 
