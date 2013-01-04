@@ -31,4 +31,8 @@
 	<string name="game_high_score_screen">High Score</string>
 	<string name="game_high_score_back_to_title">Back to Title</string>
 	
+	<!-- Dialog High Score Screen -->
+	<string name="dialog_text_score_screen">Congratulation! You get a high-score! Please digit your name:</string>
+	<string name="ok">OK</string>
+	
 </resources>
