@@ -125,11 +125,16 @@ public class GameScreen extends Activity {
 		int countLetter = 0;
 		char letter = triesEditText.getText().toString().charAt(0);
 		char[] oldUnderlines = Utils.stringToArrayChar(underlinesTextView.getText().toString());
+		boolean alreadyVerified = false;
 		for (int i = 0; i < word.length(); i++) {
 			String aux = word.charAt(i) + "";
 			if(aux.equalsIgnoreCase(letter + "")){
 				countLetter++;
-				oldUnderlines[2*i] = letter;
+				if (oldUnderlines[2*i] == '_'){
+					oldUnderlines[2*i] = letter;
+				} else {
+					alreadyVerified = true;
+				}
 			}
 		}
 		if(countLetter == 0){
@@ -142,10 +147,12 @@ public class GameScreen extends Activity {
 			mountWrongLettersString(letter);
 			verifyDefeat();
 		} else {
-			pontuation += 2 * countLetter;
-			setPontuationInScreen();
-			underlinesTextView.setText(Utils.arrayCharToString(oldUnderlines).toUpperCase());
-			verifyWin();
+			if (!alreadyVerified){
+				pontuation += 2 * countLetter;
+				setPontuationInScreen();
+				underlinesTextView.setText(Utils.arrayCharToString(oldUnderlines).toUpperCase());
+				verifyWin();
+			}
 		}
 		triesEditText.setText("");
 	}
@@ -175,6 +182,11 @@ public class GameScreen extends Activity {
 		Intent endGameIntent = new Intent(this, EndGameScreen.class);
 		endGameIntent.putExtras(params);
 		startActivity(endGameIntent);
+	}
+	
+	@Override
+	public void onBackPressed(){
+		
 	}
 	
 }
