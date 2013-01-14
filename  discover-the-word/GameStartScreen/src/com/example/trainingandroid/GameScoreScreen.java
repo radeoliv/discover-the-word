@@ -117,5 +117,11 @@ public class GameScoreScreen extends ListActivity {
 	public void setDialog(Dialog dialog) {
 		this.dialog = dialog;
 	}
+	
+	@Override
+	public void onBackPressed(){
+		Intent intent = new Intent(this, GameStartScreen.class);
+		startActivity(intent);
+	}
 
 }

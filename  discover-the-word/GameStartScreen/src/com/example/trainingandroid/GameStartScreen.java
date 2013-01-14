@@ -31,31 +31,18 @@ public class GameStartScreen extends Activity{
 			wordsList = Utils.readFileAndPutWordsInList(this);
 			listSize = wordsList.size();
 		}
+		
 		start();
 		
-		// IMPORTANTE NÃO DELETE!!!
-		
-//		ScoreEntity sampleToDelet = list.get(1);
-//		db.deleteScore(sampleToDelet, db.getWritableDatabase());
-//		list = db.getAllScores();
-//		printListEntities(list);
-		
-	}
-	
-	@SuppressWarnings("unused")
-	private void printListEntities(List<ScoreEntity> list){
-		Log.v("ListSize", list.size() + "");
-		for(ScoreEntity entity : list){
-			Log.v("Player Name", entity.getPlayerName() + "");
-			Log.v("Pontuation", entity.getPontuation() + "");
-		}
 	}
 	
 	private void start() {
 		configStartGameButton();
 		configScoreGameButton();
+		configQuitGameButton();
 	}
 	
+
 
 	private void configStartGameButton() {
 		startGame = (Button)findViewById(R.id.startGame);
@@ -74,6 +61,17 @@ public class GameStartScreen extends Activity{
 		params.putInt(Constants.PONTUATION, 0);
 		it.putExtras(params);
 		startActivity(it);
+	}
+
+	private void configQuitGameButton() {
+		Button quit = (Button)findViewById(R.id.exit);
+		quit.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				GameStartScreen.this.finish();
+				System.exit(0);
+			}
+		});
 	}
 
 	private void configScoreGameButton() {
@@ -111,6 +109,11 @@ public class GameStartScreen extends Activity{
 
 	public static void setListSize(int listSize) {
 		GameStartScreen.listSize = listSize;
+	}
+	
+	@Override
+	public void onBackPressed(){
+		
 	}
 	
 }

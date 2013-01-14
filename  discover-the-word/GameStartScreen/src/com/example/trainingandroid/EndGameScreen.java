@@ -94,6 +94,11 @@ public class EndGameScreen extends Activity{
 		startActivity(it);
 	}
 	
+	@Override
+	public void onBackPressed(){
+		
+	}
+	
 	protected void callGameStartScreen() {
 		Intent it = new Intent(this, GameStartScreen.class);
 		startActivity(it);
