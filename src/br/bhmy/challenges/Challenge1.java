@@ -12,14 +12,15 @@ public class Challenge1 implements IChallenge {
 	private int minPosition;
 	private int numberOfIterations;
 	private double inertialWeight;
+	private boolean useConstriction;
 	
 	public Challenge1() {
 		numDimensions = 30;
 		numberOfParticles = 30;
-		maxPosition = 10;
-		minPosition = -10;
+		maxPosition = 100;
+		minPosition = -100;
 		numberOfIterations = 10000;
-		inertialWeight = 0.8;
+		inertialWeight = 0.72984;
 	}
 
 	@Override
@@ -74,6 +75,11 @@ public class Challenge1 implements IChallenge {
 	@Override
 	public void setInertialWeight(double inertialWeight) {
 		this.inertialWeight = inertialWeight;
+	}
+
+	@Override
+	public boolean useConstriction() {
+		return this.useConstriction;
 	}
 
 }

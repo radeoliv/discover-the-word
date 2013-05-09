@@ -18,6 +18,7 @@ public class PSO {
 	private boolean isFstIterationOfGBest;
 	private int topologyType;
 	private boolean isDebug;
+	private boolean useConstriction;
 	
 	public PSO (IChallenge challenge, int topologyType, boolean isDebug){
 		this.challenge = challenge;
@@ -25,6 +26,7 @@ public class PSO {
 		setFstIterationOfGBest(true);
 		this.topologyType = topologyType;
 		this.isDebug = isDebug;
+		this.useConstriction = challenge.useConstriction();
 	}
 	
 	public void init(){
@@ -37,11 +39,11 @@ public class PSO {
 		for (int i = 0; i < qtyOfParticles; i++) {
 			Particle particle = new Particle(numDimensions, minPosition, maxPosition);
 
-			particle.setSpeed(Util.setInitState(numDimensions));
+			particle.setSpeed(Util.setInitState(numDimensions, minPosition, maxPosition));
 			
 			double[] initialPosition = Util.getRandomPosition(minPosition, maxPosition, numDimensions);
-			particle.setCurrentPosition(initialPosition);
-			particle.setPBest(initialPosition);
+			particle.setCurrentPosition(Arrays.copyOf(initialPosition, numDimensions));
+			particle.setPBest(Arrays.copyOf(initialPosition, numDimensions));
 			
 			swarm[i] = particle;
 		}
@@ -78,19 +80,19 @@ public class PSO {
 			
 			switch (topologyType) {
 			case Constants.GLOBAL:
-				particle.updateParticle(w, Constants.C1, Constants.C2, gBest);
+				particle.updateParticle(w, Constants.C1, Constants.C2, gBest, useConstriction);
 				break;
 			case Constants.LOCAL:
 				int bestLocalIndex = bestNeighboorIndex(i);
-				particle.updateParticle(w, Constants.C1, Constants.C2, swarm[bestLocalIndex].getCurrentPosition());
+				particle.updateParticle(w, Constants.C1, Constants.C2, swarm[bestLocalIndex].getPBest(), useConstriction);
 				break;
 			case Constants.FOCAL:
 				int focalIndex = challenge.getFocalIndex();
 				if(i == focalIndex){
-					particle.updateParticle(w, Constants.C1, Constants.C2, gBest);
+					particle.updateParticle(w, Constants.C1, Constants.C2, gBest, useConstriction);
 				} else {
 					int bestFocalIndex = bestFocalIndex(i);
-					particle.updateParticle(w, Constants.C1, Constants.C2, swarm[bestFocalIndex].getCurrentPosition());
+					particle.updateParticle(w, Constants.C1, Constants.C2, swarm[bestFocalIndex].getPBest(), useConstriction);
 				}
 				break;
 			default:
@@ -108,7 +110,7 @@ public class PSO {
 		double fitnessCurrentPos = challenge.getFitness(currentPos);
 		
 		if(challenge.isThisFitnessBetter(fitnessCurrentPos, fitnessPBest)){
-			particle.setPBest(currentPos);
+			particle.setPBest(Arrays.copyOf(currentPos, challenge.getNumberOfDimensions()));
 		}
 	}
 	
@@ -118,7 +120,7 @@ public class PSO {
 		double pBestFitness = challenge.getFitness(pBest);
 		
 		if(isFstIterationOfGBest){
-			this.gBest = pBest;
+			this.gBest = Arrays.copyOf(pBest, challenge.getNumberOfDimensions());
 			isFstIterationOfGBest = false;
 		} else {
 			double gBestFitness = challenge.getFitness(gBest);
@@ -141,14 +143,20 @@ public class PSO {
 		double fitRightParticle = challenge.getFitness(swarm[rightIndex].getPBest());
 		
 		int bestFitnessIndex = index;
+		double bestFitness = fitCurrentParticle;
 		
 		if(challenge.isThisFitnessBetter(fitLeftParticle, fitCurrentParticle)){
 			bestFitnessIndex = leftIndex;
+			bestFitness = fitLeftParticle;
 		}
 		
-		if(challenge.isThisFitnessBetter(fitRightParticle, bestFitnessIndex)){
+		if(challenge.isThisFitnessBetter(fitRightParticle, bestFitness)){
 			bestFitnessIndex = rightIndex;
 		}
+		
+//		System.out.println(fitLeftParticle + " " + fitCurrentParticle + " " + fitRightParticle);
+//		System.out.println(index + " " + bestFitnessIndex);
+//		System.out.println();
 		
 		return bestFitnessIndex;
 	}

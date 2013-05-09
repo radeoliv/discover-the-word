@@ -25,20 +25,31 @@ public class Particle {
 		this.maxPosition = maxPosition;
 	}
 	
-	public void updateParticle(double w, double c1, double c2, double[] gBest){
-		
-		double r1 = Util.generateRandom();
-		double r2 = Util.generateRandom();
-		
-		double c1r1 = Constants.C1 * r1;
-		double c2r2 = Constants.C2 * r2;
+	public void updateParticle(double w, double c1, double c2, double[] gBest, boolean useConstriction){
+
+		double[] r1 = new double[numDimensions];
+		double[] r2 = new double[numDimensions];
+
+		for (int i = 0; i < numDimensions; i++){
+			r1[i] = Util.generateRandom();
+			r2[i] = Util.generateRandom();
+		}
 		
 		for (int i = 0; i < numDimensions; i++){
 			
+			double c1r1 = Constants.C1 * r1[i];
+			double c2r2 = Constants.C2 * r2[i];
+
 			// new speed
-			speed[i] = w * speed[i]
-					+ c1r1 * (pBest[i] - currentPosition[i])
-					+ c2r2 * (gBest[i] - currentPosition[i]);
+			if(useConstriction){
+				speed[i] = w * (speed[i]
+						+ (c1r1 * (pBest[i] - currentPosition[i]))
+						+ (c2r2 * (gBest[i] - currentPosition[i])));
+			} else {
+				speed[i] = (w * speed[i])
+						+ (c1r1 * (pBest[i] - currentPosition[i]))
+						+ (c2r2 * (gBest[i] - currentPosition[i]));
+			}
 			
 			if (speed[i] > maxPosition / 4.0){
 				speed[i] =  maxPosition / 4.0;
