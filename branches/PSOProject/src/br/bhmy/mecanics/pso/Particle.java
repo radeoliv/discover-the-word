@@ -13,15 +13,19 @@ public class Particle {
 	private double[] pBest;
 	private double[] speed;
 	private double[] currentPosition;
+	private double minPosition;
+	private double maxPosition;
 	
-	public Particle(int numDimensions){
+	public Particle(int numDimensions, double minPosition, double maxPosition){
 		this.numDimensions = numDimensions;
 		pBest = new double[numDimensions];
 		speed = new double[numDimensions];
 		currentPosition = new double[numDimensions];
+		this.minPosition = minPosition;
+		this.maxPosition = maxPosition;
 	}
 	
-	public void updateParticle(double c1, double c2, double[] gBest){
+	public void updateParticle(double w, double c1, double c2, double[] gBest){
 		
 		double r1 = Util.generateRandom();
 		double r2 = Util.generateRandom();
@@ -32,27 +36,25 @@ public class Particle {
 		for (int i = 0; i < numDimensions; i++){
 			
 			// new speed
-			speed[i] = Constants.W * speed[i]
+			speed[i] = w * speed[i]
 					+ c1r1 * (pBest[i] - currentPosition[i])
 					+ c2r2 * (gBest[i] - currentPosition[i]);
 			
-			// threshold
-			double threshold = Constants.MAX_POSITION / 4.0d; 
-			if (speed[i] > threshold){
-				speed[i] =  threshold;
-			} else if (speed[i] < -threshold){
-				speed[i] =  -threshold;
+			if (speed[i] > maxPosition / 4.0){
+				speed[i] =  maxPosition / 4.0;
+			} else if (speed[i] < minPosition / 4.0){
+				speed[i] =  minPosition / 4.0;
 			}
 			
 			// update position
 			currentPosition[i] += speed[i];
 			
 			// max current position
-			if(currentPosition[i] > Constants.MAX_POSITION){
-				currentPosition[i] = Constants.MAX_POSITION;
+			if(currentPosition[i] > maxPosition){
+				currentPosition[i] = maxPosition;
 				speed[i] = -speed[i];
-			} else if (currentPosition[i] < -Constants.MAX_POSITION){
-				currentPosition[i] = -Constants.MAX_POSITION;
+			} else if (currentPosition[i] < minPosition){
+				currentPosition[i] = minPosition;
 				speed[i] = -speed[i];
 			}
 		}

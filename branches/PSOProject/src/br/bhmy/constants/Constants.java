@@ -10,5 +10,8 @@ public class Constants {
 	public static final double C1 	= 2.05;
 	public static final double C2 	= 2.05;
 	
-	public static final double MAX_POSITION = 20;
+	// topology constants
+	public static final int GLOBAL 	= 0;
+	public static final int LOCAL 	= 1;
+	public static final int FOCAL 	= 2;
 }

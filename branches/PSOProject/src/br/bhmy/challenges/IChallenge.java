@@ -16,7 +16,7 @@ public interface IChallenge {
 	 * @param dimension
 	 * @return fitness value to that point
 	 */
-	double getFitness(double... dimension);
+	double getFitness(double... particlePosition);
 	
 	/**
 	 * This method should return the number of dimensions to this challenge 
@@ -43,13 +43,28 @@ public interface IChallenge {
 	int getNumberOfIterations();
 
 	/**
-	 * This method need to do the comparation between this values and choice the better fitness
+	 * This method needs to do the comparation between this values and choice the better fitness
 	 * @param fitness1 - new fitness
 	 * @param fitness2 - best fitness
 	 * @return True, if fit1 is better than fit2. False, if the opposite occurs 
 	 */
 	boolean isThisFitnessBetter(double newFitness, double bestFitness);
 	
+	/**
+	 * This method should return the index of focal particle using focal topography
+	 * @return
+	 */
+	int getFocalIndex();
 	
-	
+	/**
+	 * This method needs returns the inertial weight
+	 * @return
+	 */
+	double getInertialWeight();
+
+	/**
+	 * Sets the inertial weight
+	 * @return
+	 */
+	void setInertialWeight(double inertialWeight);
 }
