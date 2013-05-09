@@ -21,7 +21,7 @@ public class Util {
 	 * @return random value
 	 */
 	public static final double generateRandom(double minValue, double maxValue){
-		double value = new Random().nextDouble();
+		double value = generateRandom();
 		value = ((maxValue - minValue) * value) + minValue;
 		return value;
 	}
@@ -46,10 +46,10 @@ public class Util {
 	 * @param numDimensions
 	 * @return [0, 0, 0, ... 0]
 	 */
-	public static final double[] setInitState(int numDimensions){
+	public static final double[] setInitState(int numDimensions, double minPosition, double maxPosition){
 		double[] d = new double[numDimensions];
 		for (int i = 0; i < d.length; i++) {
-			d[i] = 0;
+			d[i] = generateRandom(minPosition/4.0, maxPosition/4.0);
 		}
 		return d;
 	}

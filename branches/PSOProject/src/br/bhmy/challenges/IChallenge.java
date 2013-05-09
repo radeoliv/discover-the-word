@@ -67,4 +67,10 @@ public interface IChallenge {
 	 * @return
 	 */
 	void setInertialWeight(double inertialWeight);
+	
+	/**
+	 * Returns the boolean to use constriction coefficient to calculate particle speed
+	 * @return 
+	 */
+	boolean useConstriction();
 }

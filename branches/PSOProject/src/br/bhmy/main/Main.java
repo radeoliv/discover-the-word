@@ -11,7 +11,7 @@ public class Main {
 	}
 	
 	public static void startChallenge(IChallenge challenge){
-		PSO pso = new PSO(challenge, Constants.FOCAL, false);
+		PSO pso = new PSO(challenge, Constants.FOCAL, true);
 		pso.init();
 		pso.start();
 	}
