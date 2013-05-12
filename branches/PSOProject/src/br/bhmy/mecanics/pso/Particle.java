@@ -13,6 +13,7 @@ public class Particle {
 	private double[] pBest;
 	private double[] speed;
 	private double[] currentPosition;
+	private double fitnessPBest;
 	private double minPosition;
 	private double maxPosition;
 	
@@ -42,7 +43,7 @@ public class Particle {
 
 			// new speed
 			if(useConstriction){
-				speed[i] = w * (speed[i]
+				speed[i] = Constants.CONSTRICTION_COEFFICIENT * (speed[i]
 						+ (c1r1 * (pBest[i] - currentPosition[i]))
 						+ (c2r2 * (gBest[i] - currentPosition[i])));
 			} else {
@@ -97,6 +98,14 @@ public class Particle {
 
 	public void setCurrentPosition(double[] currentPosition) {
 		this.currentPosition = currentPosition;
+	}
+
+	public double getFitnessPBest() {
+		return fitnessPBest;
+	}
+
+	public void setFitnessPBest(double fitnessPBest) {
+		this.fitnessPBest = fitnessPBest;
 	}
 
 }

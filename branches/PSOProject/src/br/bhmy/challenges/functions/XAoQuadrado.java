@@ -1,10 +1,12 @@
-package br.bhmy.challenges;
+package br.bhmy.challenges.functions;
+
+import br.bhmy.challenges.IChallenge;
 
 /**
  * @author Bruno Yamashita
  */
 
-public class Challenge1 implements IChallenge {
+public class XAoQuadrado implements IChallenge {
 
 	private int numDimensions;
 	private int numberOfParticles;
@@ -14,13 +16,22 @@ public class Challenge1 implements IChallenge {
 	private double inertialWeight;
 	private boolean useConstriction;
 	
-	public Challenge1() {
+	//decay factor
+	private double maxRange = 0.8;
+	private double minRange = 0.4;
+	private double decayFactor;
+	private boolean useDecayFactor;
+	
+	public XAoQuadrado() {
 		numDimensions = 30;
 		numberOfParticles = 30;
 		maxPosition = 100;
 		minPosition = -100;
 		numberOfIterations = 10000;
-		inertialWeight = 0.72984;
+		inertialWeight = 0.8;
+		useConstriction = false;
+		useDecayFactor 	= true;
+		decayFactor = (maxRange - minRange) / numberOfIterations;
 	}
 
 	@Override
@@ -82,4 +93,17 @@ public class Challenge1 implements IChallenge {
 		return this.useConstriction;
 	}
 
+	@Override
+	public double getDecayFactor(){
+		return this.decayFactor;
+	}
+
+	@Override
+	public boolean useDecayFactor() {
+		return useDecayFactor;
+	}
+
+	public void setUseDecayFactor(boolean useDecayFactor) {
+		this.useDecayFactor = useDecayFactor;
+	}
 }

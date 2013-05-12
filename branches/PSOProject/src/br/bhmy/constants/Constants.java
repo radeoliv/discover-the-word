@@ -14,4 +14,6 @@ public class Constants {
 	public static final int GLOBAL 	= 0;
 	public static final int LOCAL 	= 1;
 	public static final int FOCAL 	= 2;
+	
+	public static final double CONSTRICTION_COEFFICIENT = 0.72984;
 }
