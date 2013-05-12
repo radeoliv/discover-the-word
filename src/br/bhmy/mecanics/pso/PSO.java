@@ -1,5 +1,8 @@
 package br.bhmy.mecanics.pso;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
@@ -14,6 +17,9 @@ import br.bhmy.util.Util;
 
 public class PSO {
 	
+	// print matlab codes on TXT
+	private BufferedWriter writer;
+	
 	private IChallenge challenge;
 	private Particle[] swarm;
 	private double[] gBest;
@@ -25,7 +31,9 @@ public class PSO {
 	private boolean useDecayFactor;
 	private double decayFactor = 0.0;
 	
-	public PSO (IChallenge challenge, int topologyType, boolean isDebug){
+	private int indexRun;
+	
+	public PSO (IChallenge challenge, int topologyType, boolean isDebug, int indexRun){
 		this.challenge = challenge;
 		this.setSwarm(new Particle[challenge.getNumberOfParticles()]);
 		setFstIterationOfGBest(true);
@@ -33,14 +41,19 @@ public class PSO {
 		this.isDebug = isDebug;
 		this.useConstriction = challenge.useConstriction();
 		this.useDecayFactor = challenge.useDecayFactor();
+		this.indexRun = indexRun;
 	}
 	
-	public void init(){
+	public void init() throws IOException{
 		
 		int qtyOfParticles = challenge.getNumberOfParticles();
 		int numDimensions  = challenge.getNumberOfDimensions();
 		double minPosition = challenge.getMinPosition();
 		double maxPosition = challenge.getMaxPosition();
+		
+		if(isDebug){
+			writer = new BufferedWriter(new FileWriter(Constants.PATH_FILE, true));
+		}
 		
 		for (int i = 0; i < qtyOfParticles; i++) {
 			Particle particle = new Particle(numDimensions, minPosition, maxPosition);
@@ -55,7 +68,7 @@ public class PSO {
 		}
 	}
 	
-	public void start(){
+	public void start() throws IOException{
 		int numberOfIterations = challenge.getNumberOfIterations();
 		
 		if(useDecayFactor){
@@ -66,14 +79,21 @@ public class PSO {
 			run(i);
 		}
 		
-		System.out.println("GBest Final["+ getTopologyName(topologyType) +"]: " + challenge.getFitness(gBest));
+		if(isDebug){
+			if(writer != null){
+				writer.flush();
+				writer.close();
+			}
+			
+			System.out.println(indexRun + " - GBest Final["+ getTopologyName(topologyType) +"]: " + challenge.getFitness(gBest));
+		}
 	}
 	
 	private void calculateDecayFactor() {
 		decayFactor = challenge.getDecayFactor();
 	}
 
-	private void run(int iteration) {
+	private void run(int iteration) throws IOException {
 		
 		int qtyOfParticles = challenge.getNumberOfParticles();
 		int numIterations = challenge.getNumberOfIterations();
@@ -123,15 +143,21 @@ public class PSO {
 		}
 	}
 
-	private void printDebug(int iteration, int numIterations) {
+	private void printDebug(int iteration, int numIterations) throws IOException {
+		
+		writer.flush();
+		
 		if(iteration == 0){
-			System.out.print("vector = [");
+			writer.write("vector("+indexRun+", :) = [");
 		}
-		System.out.print(challenge.getFitness(gBest));
+		
+		writer.write(challenge.getFitness(gBest) + "");
+		
 		if(iteration == numIterations - 1){
-			System.out.println("];");
+			writer.write("];");
+			writer.newLine();
 		} else {
-			System.out.print(", ");
+			writer.write(", ");
 		}
 	}
 

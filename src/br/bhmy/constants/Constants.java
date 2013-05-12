@@ -6,6 +6,9 @@ package br.bhmy.constants;
 
 public class Constants {
 	
+	public static final String PATH_FILE = "MatlabCode.txt";
+	
+	// update speed constants
 	public static final double W 	= 0.72984;
 	public static final double C1 	= 2.05;
 	public static final double C2 	= 2.05;
@@ -15,5 +18,6 @@ public class Constants {
 	public static final int LOCAL 	= 1;
 	public static final int FOCAL 	= 2;
 	
+	// math
 	public static final double CONSTRICTION_COEFFICIENT = 0.72984;
 }
