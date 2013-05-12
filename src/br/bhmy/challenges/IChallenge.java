@@ -73,4 +73,11 @@ public interface IChallenge {
 	 * @return 
 	 */
 	boolean useConstriction();
+	
+	/**
+	 * Returns decay factor if it will be used
+	 * @return
+	 */
+	boolean useDecayFactor();
+	double getDecayFactor();
 }

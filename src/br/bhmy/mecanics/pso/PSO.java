@@ -2,6 +2,8 @@ package br.bhmy.mecanics.pso;
 
 import java.util.Arrays;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
+
 import br.bhmy.challenges.IChallenge;
 import br.bhmy.constants.Constants;
 import br.bhmy.util.Util;
@@ -20,6 +22,9 @@ public class PSO {
 	private boolean isDebug;
 	private boolean useConstriction;
 	
+	private boolean useDecayFactor;
+	private double decayFactor = 0.0;
+	
 	public PSO (IChallenge challenge, int topologyType, boolean isDebug){
 		this.challenge = challenge;
 		this.setSwarm(new Particle[challenge.getNumberOfParticles()]);
@@ -27,6 +32,7 @@ public class PSO {
 		this.topologyType = topologyType;
 		this.isDebug = isDebug;
 		this.useConstriction = challenge.useConstriction();
+		this.useDecayFactor = challenge.useDecayFactor();
 	}
 	
 	public void init(){
@@ -51,15 +57,26 @@ public class PSO {
 	
 	public void start(){
 		int numberOfIterations = challenge.getNumberOfIterations();
+		
+		if(useDecayFactor){
+			calculateDecayFactor();
+		}
+		
 		for (int i = 0; i < numberOfIterations; i++) {
 			run(i);
 		}
-		System.out.println("GBest["+ getTopologyName(topologyType) +"]: " + challenge.getFitness(gBest));
+		
+		System.out.println("GBest Final["+ getTopologyName(topologyType) +"]: " + challenge.getFitness(gBest));
 	}
 	
+	private void calculateDecayFactor() {
+		decayFactor = challenge.getDecayFactor();
+	}
+
 	private void run(int iteration) {
 		
 		int qtyOfParticles = challenge.getNumberOfParticles();
+		int numIterations = challenge.getNumberOfIterations();
 		
 		// verify bests positions
 		for(int i = 0; i < qtyOfParticles; i++){
@@ -69,7 +86,7 @@ public class PSO {
 		}
 		
 		if(isDebug){
-			System.out.println("GBest["+ getTopologyName(topologyType) +"] - "+ (iteration + 1) +": " + challenge.getFitness(gBest));
+			printDebug(iteration, numIterations);
 		}
 		
 		// update position and speed
@@ -99,6 +116,22 @@ public class PSO {
 				break;
 			}
 			
+			if(useDecayFactor){
+				challenge.setInertialWeight(w - decayFactor);
+			}
+			
+		}
+	}
+
+	private void printDebug(int iteration, int numIterations) {
+		if(iteration == 0){
+			System.out.print("vector = [");
+		}
+		System.out.print(challenge.getFitness(gBest));
+		if(iteration == numIterations - 1){
+			System.out.println("];");
+		} else {
+			System.out.print(", ");
 		}
 	}
 
@@ -153,10 +186,6 @@ public class PSO {
 		if(challenge.isThisFitnessBetter(fitRightParticle, bestFitness)){
 			bestFitnessIndex = rightIndex;
 		}
-		
-//		System.out.println(fitLeftParticle + " " + fitCurrentParticle + " " + fitRightParticle);
-//		System.out.println(index + " " + bestFitnessIndex);
-//		System.out.println();
 		
 		return bestFitnessIndex;
 	}
