@@ -52,7 +52,14 @@ public class PSO {
 		double maxPosition = challenge.getMaxPosition();
 		
 		if(isDebug){
-			writer = new BufferedWriter(new FileWriter(Constants.PATH_FILE, true));
+			String pathName = challenge.getFunctionName() + "_" +getTopologyName(topologyType);
+			if(useDecayFactor){
+				pathName += "_DecayFactor";
+			}
+			if(useConstriction){
+				pathName += "_Constriction";
+			}
+			writer = new BufferedWriter(new FileWriter( pathName + ".txt", true));
 		}
 		
 		for (int i = 0; i < qtyOfParticles; i++) {
@@ -85,7 +92,7 @@ public class PSO {
 				writer.close();
 			}
 			
-			System.out.println(indexRun + " - GBest Final["+ getTopologyName(topologyType) +"]: " + challenge.getFitness(gBest));
+			System.out.println(indexRun + " - GBest["+ getTopologyName(topologyType) +"]: " + challenge.getFitness(gBest));
 		}
 	}
 	

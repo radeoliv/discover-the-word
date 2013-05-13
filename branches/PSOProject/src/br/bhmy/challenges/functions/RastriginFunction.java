@@ -2,11 +2,7 @@ package br.bhmy.challenges.functions;
 
 import br.bhmy.challenges.IChallenge;
 
-/**
- * @author Bruno Yamashita
- */
-
-public class RosenbrockFunction implements IChallenge {
+public class RastriginFunction implements IChallenge {
 
 	private int numDimensions;
 	private int numberOfParticles;
@@ -22,11 +18,11 @@ public class RosenbrockFunction implements IChallenge {
 	private double decayFactor;
 	private boolean useDecayFactor;
 
-	public RosenbrockFunction() {
+	public RastriginFunction() {
 		numDimensions = 30;
 		numberOfParticles = 30;
-		maxPosition = 100;
-		minPosition = -100;
+		maxPosition = 5;
+		minPosition = -5;
 		numberOfIterations = 10000;
 		inertialWeight = 0.8;
 		useConstriction = true;
@@ -38,10 +34,10 @@ public class RosenbrockFunction implements IChallenge {
 	public double getFitness(double... z) {
 		double result = 0;
 		int size = z.length;
-		for (int i = 0; i < size - 1; i++) {
-			double fstPart = 100 * Math.pow( (z[i]*z[i]) - z[i+1] , 2);
-			double sndPart = Math.pow((z[i] - 1), 2);
-			result += fstPart + sndPart;
+		for (int i = 0; i < size; i++) {
+			double z2 = z[i]*z[i];
+			double cos = -10 * Math.cos(2 * Math.PI * z[i]);
+			result += z2 - cos + 10;
 		}
 		return result;
 	}
@@ -112,7 +108,6 @@ public class RosenbrockFunction implements IChallenge {
 	
 	@Override
 	public String getFunctionName() {
-		return "RosenbrockFunction";
+		return "RastriginFunction";
 	}
 }
-

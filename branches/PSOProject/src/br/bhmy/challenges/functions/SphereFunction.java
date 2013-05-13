@@ -22,8 +22,6 @@ public class SphereFunction implements IChallenge {
 	private double decayFactor;
 	private boolean useDecayFactor;
 
-	private double fBias = 0;
-	
 	public SphereFunction() {
 		numDimensions = 30;
 		numberOfParticles = 30;
@@ -40,7 +38,7 @@ public class SphereFunction implements IChallenge {
 	public double getFitness(double... dimension) {
 		double result = 0;
 		for (double d : dimension) {
-			result += Math.pow(d, 2.0d) + fBias;
+			result += Math.pow(d, 2.0d);
 		}
 		return result;
 	}
@@ -107,5 +105,10 @@ public class SphereFunction implements IChallenge {
 
 	public void setUseDecayFactor(boolean useDecayFactor) {
 		this.useDecayFactor = useDecayFactor;
+	}
+
+	@Override
+	public String getFunctionName() {
+		return "SphereFunction";
 	}
 }
