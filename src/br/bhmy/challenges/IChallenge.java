@@ -80,4 +80,7 @@ public interface IChallenge {
 	 */
 	boolean useDecayFactor();
 	double getDecayFactor();
+	
+	String getFunctionName();
+
 }
