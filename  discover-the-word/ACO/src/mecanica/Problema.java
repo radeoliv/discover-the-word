@@ -22,8 +22,8 @@ public class Problema {
 	
 	// Nome do problema -------------------------------------------------------------
 	
-	public BancoDeDados nomeProblema = BancoDeDados.ATT48;
-	public int numCidades = 48;
+	public BancoDeDados nomeProblema = BancoDeDados.EIL51;
+	public int numCidades = 51;
 	
 	// Métodos ----------------------------------------------------------------------
 	

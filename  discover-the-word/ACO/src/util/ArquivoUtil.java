@@ -22,7 +22,7 @@ public class ArquivoUtil {
 			name = Constantes.CUBO; 
 			qtCities = 4;
 			break;
-		case EIL50: 
+		case EIL51: 
 			name = Constantes.NAME_EIL51;
 			qtCities = 51;
 		break;	

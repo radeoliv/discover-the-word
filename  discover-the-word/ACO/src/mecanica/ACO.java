@@ -19,6 +19,9 @@ public class ACO {
 	public Integer[] melhorCaminho;
 	public double menorDistancia = Constantes.VALOR_GRANDE;
 	
+	public ArrayList<Integer[]> melhoresCaminhos = new ArrayList<Integer[]>();
+	public ArrayList<Double> menoresDistancias = new ArrayList<Double>();
+	
 	public ACO(Problema problema, double[][] distancias, int numFormigas) {
 		
 		this.distancias = distancias;
@@ -44,7 +47,15 @@ public class ACO {
 	public void iniciarColonia(){
 		for (int i = 0; i < Problema.MAX_IT; i++) {
 			iterarColonia();
+			if(i % 200 == 0){
+				saveResults();
+			}
 		}
+	}
+
+	private void saveResults() {
+		melhoresCaminhos.add(melhorCaminho);
+		menoresDistancias.add(menorDistancia);
 	}
 
 	private void iterarColonia() {
