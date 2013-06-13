@@ -1,7 +1,6 @@
 package mecanica;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import util.Constantes;
@@ -21,6 +20,9 @@ public class ACO {
 	
 	public ArrayList<Integer[]> melhoresCaminhos = new ArrayList<Integer[]>();
 	public ArrayList<Double> menoresDistancias = new ArrayList<Double>();
+
+	public ArrayList<Integer> nodeBranching = new ArrayList<Integer>();
+	private static final double LAMBDA = 0.05;
 	
 	public ACO(Problema problema, double[][] distancias, int numFormigas) {
 		
@@ -48,21 +50,61 @@ public class ACO {
 		for (int i = 0; i < Problema.MAX_IT; i++) {
 			iterarColonia();
 			if(i % 200 == 0){
-				saveResults();
+				salvarResultados();
 			}
 		}
 	}
 
-	private void saveResults() {
+	private void salvarResultados() {
 		melhoresCaminhos.add(melhorCaminho);
 		menoresDistancias.add(menorDistancia);
+		nodeBranching.add(verificarResultadosNodeBranching());
+	}
+
+	
+	private int verificarResultadosNodeBranching() {
+		int tam = feromonios.length;
+		int contador = 0;
+		for (int i = 0; i < tam; i++) {
+			double[] daVez = feromonios[i];
+			contador += salvarNodeBranchCont(daVez, i);
+		}
+		return contador;
+	}
+
+	private int salvarNodeBranchCont(double[] daVez, int indice) {
+		double min = Constantes.VALOR_GRANDE;
+		double max = -Constantes.VALOR_GRANDE;
+		int tam = daVez.length;
+		for (int i = 0; i < tam; i++) {
+			if(i == indice){
+				continue;
+			} else {
+				if(daVez[i] < min){
+					min = daVez[i]; 
+				} 
+				if(daVez[i] > max){
+					max = daVez[i];
+				}
+			}
+		}
+		double limiar = min + (LAMBDA *(max-min));
+		int contador = 0;
+		for (int i = 0; i < tam; i++) {
+			if(i == indice){
+				continue;
+			} else if (daVez[i] >= limiar){
+				contador++;
+			}
+		}
+		return contador;
 	}
 
 	private void iterarColonia() {
 		int size = listaFormigas.length;
 		Formiga ultimaFormiga = listaFormigas[size-1]; 
 		for (int i = 0; i < size; i++) {
-			if(ultimaFormiga.voltando){ // se a ultima formiga voltou atualizar feromonio!!
+			if(ultimaFormiga.voltando){ // se a ultima formiga voltou, atualizar feromonio!!
 				volteFormiga(listaFormigas[i]);
 			} else {
 				iteraFormiga(listaFormigas[i]);
@@ -89,8 +131,6 @@ public class ACO {
 			formiga.visitou(novoDestino);
 		}
 	}
-
-	
 
 	public Integer retorneNovoDestino(Formiga formiga){
 		
