@@ -23,7 +23,7 @@ public class Problema {
 	
 	// Nome do problema -------------------------------------------------------------
 	
-	public BancoDeDados enumProblema = BancoDeDados.ATT48;
+	public BancoDeDados enumProblema = BancoDeDados.OLIVER30;
 	public int numCidades;
 	public String nomeProblema;
 	

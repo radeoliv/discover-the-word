@@ -11,27 +11,27 @@ public class ArquivoUtil {
 	{
 		String name = null;
 		int qtCities = 0;
-		switch(banco)
-		{
-		
-		case ATT48: 
-			name = Constantes.NAME_ATT48;
+		switch (banco) {
+
+		case ATT48:
+			name = Constantes.NAME_ATT48_TXT;
 			qtCities = 48;
-		break;
+			break;
+		case OLIVER30:
+			name = Constantes.NAME_OLIVER30_TXT;
+			qtCities = 30;
+			break;
 		case CUBO:
-			name = Constantes.CUBO; 
+			name = Constantes.CUBO_TXT;
 			qtCities = 4;
 			break;
-		case EIL51: 
-			name = Constantes.NAME_EIL51;
+		case EIL51:
+			name = Constantes.NAME_EIL51_TXT;
 			qtCities = 51;
-		break;	
-		
-		case OLIVER30: 
-			name = Constantes.NAME_OLIVER30;
-			qtCities = 30;
-		break;
-		
+			break;
+		default:
+			System.out.println("ERRO!!");
+			break;
 		}
 		
 		File file = new File(name);

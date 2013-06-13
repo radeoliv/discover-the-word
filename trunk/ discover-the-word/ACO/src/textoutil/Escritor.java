@@ -13,7 +13,7 @@ public class Escritor {
 		
 	}
 	
-	public void iniciarEscritor() throws IOException{
+	public void inicie() throws IOException{
 		escritor = new BufferedWriter(new FileWriter(this.path, true));
 	}
 	
@@ -36,7 +36,7 @@ public class Escritor {
 		return path;
 	}
 	
-	public void setPath(String path) {
+	public void atualizeCaminhoDoArquivo(String path) {
 		this.path = path;
 	}
 }	
