@@ -15,9 +15,9 @@ public class Problema {
 	// Variáveis do problema --------------------------------------------------------
 	
 	public int indiceInicial = 0;			// indice inicial da cidade
-	public double alpha = 1.0; 			// influencia do feromonio
+	public double alpha = 1.0;		// influencia do feromonio
 	public double beta = 1.0; 				// influencia da visibilidade 
-	public double P = 0.3;					// taxa de evaporação do feromonio
+	public double P = variando;					// taxa de evaporação do feromonio
 	public double Q = 100;					// qtd de feromonio depositada
 	
 	

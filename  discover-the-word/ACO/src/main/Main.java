@@ -6,6 +6,7 @@ import java.util.Arrays;
 import mecanica.ACO;
 import mecanica.Problema;
 import textoutil.Escritor;
+import util.BancoDeDados;
 
 
 public class Main {
@@ -13,29 +14,60 @@ public class Main {
 	static Escritor escritor = new Escritor();
 	
 	public static void main(String[] args) throws Exception {
-		runProb();
+		runProb(BancoDeDados.OLIVER30);
+		System.out.println("< Fim Oliver30 >");
+		runProb(BancoDeDados.ATT48);
+		System.out.println("< Fim Att48 >");
+		runProb(BancoDeDados.EIL51);
+		System.out.println("< Fim Eil51 >");
 	}
 	
-	static void runProb() throws Exception{
+	static void runProb(BancoDeDados enumProblema) throws Exception{
 		
-		Problema problema = new Problema();
+		Problema problema = new Problema(enumProblema);
 		double[][] matriz = problema.carregarArquivo();
 		ArrayList<ACO> execucoes = new ArrayList<>();
 		
 		for (int i = 0; i < Problema.QTD_EXECUCOES; i++) {
-			ACO aco = new ACO(problema, matriz, problema.numCidades);
+			ACO aco = new ACO(problema, matriz, 2*problema.numCidades);
 			aco.iniciarColonia();
 			execucoes.add(aco);
 		}
 		
+		// 4.1
 		ArrayList<Double> mediaMenoresDist = calcularMediasMenoresDist(execucoes);
-		
 		Main.escreverArqTexto(mediaMenoresDist, problema.nomeProblema + "_EvolucaoDosComprimentos.txt");
 		
-		ArrayList<Double> menoresDistFinais = pegarMenoresDistFInais(execucoes);
+		// 4.2
+		ArrayList<Double> mediaNodeBranchCont = calcularNodeBranchContMedia(execucoes);
+		Main.escreverArqTexto(mediaNodeBranchCont, problema.nomeProblema + "_EvolucaoDoNodeBranching.txt");
 		
+		// 4.3
+		ArrayList<Double> menoresDistFinais = pegarMenoresDistFinais(execucoes);
 		pegarMediaEDesvioPadrao(menoresDistFinais, problema.nomeProblema + "_DesvioPadraoEMedia.txt");
 		
+	}
+	
+	private static ArrayList<Double> calcularNodeBranchContMedia(ArrayList<ACO> acos) {
+		
+		ArrayList<ArrayList<Integer>> contadoresBranch = new ArrayList<ArrayList<Integer>>();
+		for (int i = 0; i < acos.size(); i++) {
+			ArrayList<Integer> contBranchDaSimul = acos.get(i).nodeBranching;
+			contadoresBranch.add(contBranchDaSimul);
+		}
+		
+		int qtdDeRodadasPor200It = contadoresBranch.get(0).size();
+		ArrayList<Double> mediaContBranch = new ArrayList<Double>();
+		for (int i = 0; i < qtdDeRodadasPor200It; i++) {
+			double sum = 0.0;
+			int contsBranchesSize = contadoresBranch.size();
+			for (int j = 0; j < contsBranchesSize; j++) {
+				sum += contadoresBranch.get(j).get(i);
+			}
+			mediaContBranch.add(sum / contsBranchesSize);
+		}
+		
+		return mediaContBranch;
 	}
 	
 	private static void pegarMediaEDesvioPadrao(ArrayList<Double> menoresDistFinais, String path) throws IOException {
@@ -70,7 +102,7 @@ public class Main {
 		escritor.fechar();
 	}
 
-	private static ArrayList<Double> pegarMenoresDistFInais(ArrayList<ACO> acos) {
+	private static ArrayList<Double> pegarMenoresDistFinais(ArrayList<ACO> acos) {
 		
 		ArrayList<ArrayList<Double>> menoresDistancias = new ArrayList<ArrayList<Double>>();
 		for (int i = 0; i < acos.size(); i++) {
@@ -87,8 +119,7 @@ public class Main {
 		return melhoresFinais;
 	}
 
-	static ArrayList<Double> calcularMediasMenoresDist(
-			ArrayList<ACO> acos) {
+	static ArrayList<Double> calcularMediasMenoresDist(ArrayList<ACO> acos) {
 		
 		ArrayList<ArrayList<Double>> menoresDistancias = new ArrayList<ArrayList<Double>>();
 		for (int i = 0; i < acos.size(); i++) {
@@ -110,23 +141,7 @@ public class Main {
 		return mediaDistancias;
 	}
 
-	static void escreverArqTexto(/* ArrayList<Integer[]>melhoresCaminhos, */ ArrayList<Double> arraylist, String nameProblem) throws IOException{
-		/*
-		
-		// melhores caminhos
-		escritor.setPath(nameProblem + "_EvolucaoDasMelhoresRotas.txt");
-		escritor.iniciarEscritor();
-		ArrayList<Integer[]> melhoresRotas = melhoresCaminhos;
-		int tam = melhoresRotas.size();
-		for (int i = 0; i < tam; i++) {
-			Integer[] melhorRotaDaVez = melhoresRotas.get(i);
-			escritor.escreva(Arrays.toString(melhorRotaDaVez));
-			escritor.pularLinha();
-		}
-		escritor.fechar();
-		
-		*/
-		
+	static void escreverArqTexto(ArrayList<Double> arraylist, String nameProblem) throws IOException{
 		escritor.atualizeCaminhoDoArquivo(nameProblem);
 		escritor.inicie();
 		escritor.escreva("vetor = ");
