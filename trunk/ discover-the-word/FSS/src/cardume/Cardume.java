@@ -11,20 +11,71 @@ public class Cardume {
 	Peixe[] cardume;
 	AbsProblema problema;
 	double pesoAtualCardume;
+	double melhorFit = -Double.MAX_VALUE;
 	
 	public Cardume(AbsProblema problema){
 		this.problema = problema;
+		iniciarCardume();
 	}
 	
 	public void iniciarCardume(){
-		int tamCardume = problema.numPeixes;		
+		int tamCardume = problema.numPeixes;
+		pesoAtualCardume = problema.pesoInicial * tamCardume;
 		cardume = new Peixe[tamCardume];
 		for (int i = 0; i < tamCardume; i++) {
 			cardume[i] = new Peixe(problema);
 		}
 	}
 	
+	public void comecarPeixarada(){
+		int numIteracoes = problema.numIteracoes;
+		for (int i = 0; i < numIteracoes; i++) {
+			iterarTodosPeixes();
+			armazenarMelhorFitness();
+		}
+	}
 	
+	private void armazenarMelhorFitness() {
+		int numPeixes = problema.numPeixes;
+		for (int i = 0; i < numPeixes; i++) {
+			Peixe p = cardume[i];
+			if(p.fitAtual > melhorFit){
+				melhorFit = p.fitAtual;
+			}
+		}
+		System.out.println("Melhor fitness = " + melhorFit);
+	}
+
+	private void iterarTodosPeixes() {
+		
+		int numPeixes = problema.numPeixes;
+		for (int i = 0; i < numPeixes; i++) {
+			Peixe peixe = cardume[i];
+			peixe.calcularFitness();			// evaluate fitness function
+			peixe.nadar(); 						// individual movement by using (1)(2)(3)
+		}
+		
+		double maiorDeltaF = -Double.MAX_VALUE;
+		
+		for (int i = 0; i < numPeixes; i++) {
+			Peixe peixe = cardume[i];
+			if(peixe.deltaF > maiorDeltaF){
+				maiorDeltaF = peixe.deltaF;
+			}
+		}
+		
+		for (int i = 0; i < numPeixes; i++) {
+			Peixe peixe = cardume[i];
+			peixe.alimentar(maiorDeltaF);		// feeding by using (5)
+			peixe.calcularFitness();			// evaluate fitness function again =D
+		}
+		
+		iterarInstintivoColetivo();				// instinctive movement by using (6)(7) for each fish
+		iterarColetivoVolitivo();				// volitive movement by using (9) or (10) for each fish
+		
+		problema.atualizarStepInd();			// update step using (4)
+	}
+
 	public void iterarInstintivoColetivo(){
 		int numDimensoes = problema.numDimensoes;
 		int numPeixes = problema.numPeixes;
