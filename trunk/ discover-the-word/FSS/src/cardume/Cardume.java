@@ -11,7 +11,8 @@ public class Cardume {
 	Peixe[] cardume;
 	AbsProblema problema;
 	double pesoAtualCardume;
-	double melhorFit = -Double.MAX_VALUE;
+	double melhorFit = Double.MAX_VALUE;
+	double melhorPos = Double.MAX_VALUE;
 	
 	public Cardume(AbsProblema problema){
 		this.problema = problema;
@@ -31,27 +32,25 @@ public class Cardume {
 		int numIteracoes = problema.numIteracoes;
 		for (int i = 0; i < numIteracoes; i++) {
 			iterarTodosPeixes();
-			armazenarMelhorFitness();
 		}
 	}
 	
-	private void armazenarMelhorFitness() {
-		int numPeixes = problema.numPeixes;
-		for (int i = 0; i < numPeixes; i++) {
-			Peixe p = cardume[i];
-			if(p.fitAtual > melhorFit){
-				melhorFit = p.fitAtual;
-			}
-		}
-		System.out.println("Melhor fitness = " + melhorFit);
-	}
-
 	private void iterarTodosPeixes() {
 		
 		int numPeixes = problema.numPeixes;
 		for (int i = 0; i < numPeixes; i++) {
 			Peixe peixe = cardume[i];
 			peixe.calcularFitness();			// evaluate fitness function
+			
+			if(peixe.fitAtual < melhorFit){
+				melhorFit = peixe.fitAtual;
+				System.out.println("Melhor fitness até o momento = " + melhorFit);
+			}
+			
+		}
+		
+		for (int i = 0; i < numPeixes; i++) {
+			Peixe peixe = cardume[i];
 			peixe.nadar(); 						// individual movement by using (1)(2)(3)
 		}
 		

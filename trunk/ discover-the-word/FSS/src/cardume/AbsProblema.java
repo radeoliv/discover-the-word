@@ -5,8 +5,8 @@ public class AbsProblema {
 	public double minPosition = -100;
 	public double maxPosition = 100;
 	
-	public int numDimensoes = 4;
-	public int numPeixes = 4;
+	public int numDimensoes = 50;
+	public int numPeixes = 50;
 	
 	public double stepIndInicial = 0.1;
 	public double stepIndFinal = 0.00001;
@@ -15,7 +15,7 @@ public class AbsProblema {
 	
 	public double pesoInicial = 1.0;
 	
-	public int numIteracoes = 5000;
+	public int numIteracoes = 10000;
 	
 	public AbsProblema(){
 		stepInd = stepIndInicial;

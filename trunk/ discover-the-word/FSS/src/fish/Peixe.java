@@ -62,7 +62,7 @@ public class Peixe {
 	}
 
 	private void calculaDeltaF(double novoFit, double fitAtual) {
-		deltaF = fitAtual - novoFit;
+		deltaF = novoFit - fitAtual;
 	}
 
 	private void calculaDeltaX(int numDimensoes, double[] novaPos) {
