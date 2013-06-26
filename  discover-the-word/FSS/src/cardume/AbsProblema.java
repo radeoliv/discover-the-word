@@ -5,11 +5,11 @@ public class AbsProblema {
 	public double minPosition = -100;
 	public double maxPosition = 100;
 	
-	public int numDimensoes = 30;
-	public int numPeixes = 30;
+	public int numDimensoes = 4;
+	public int numPeixes = 4;
 	
 	public double stepIndInicial = 0.1;
-	public double stepIndFinal = 0.000001;
+	public double stepIndFinal = 0.00001;
 
 	public double stepInd;
 	

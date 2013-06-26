@@ -23,18 +23,13 @@ public class Peixe {
 	public void iniciarPeixe() {
 		posAtual = Util.setInitState(problema.numDimensoes,
 				problema.minPosition, problema.maxPosition);
-		fitAtual = problema.getFitness(posAtual);
 		pesoAtual = problema.pesoInicial;
 	}
-
-	// TODO verificar troca de sinal!!!!
-	public void alimentar(double[] novaPosicao, double maiorVariacaoFitness) {
-		double fitAntigo = problema.getFitness(posAtual);
-		double fitNovo = problema.getFitness(novaPosicao);
-		double segundoFator = (fitAntigo - fitNovo) / maiorVariacaoFitness;
-		pesoAtual = pesoAtual + segundoFator;
+	
+	public void calcularFitness(){
+		fitAtual = problema.getFitness(posAtual);
 	}
-
+	
 	public void nadar() {
 
 		int numDimensoes = problema.numDimensoes;
@@ -56,29 +51,18 @@ public class Peixe {
 			}
 			
 		}
-
+		
 		double novoFit = problema.getFitness(novaPos);
-
-		if (problema.esteFitnessEhMelhor(novoFit, fitAtual)) {
-
-			calculaDeltaX(numDimensoes, novaPos);
-			calculaDeltaF(novoFit, fitAtual);
-
-			posAtual = null;
-			posAtual = novaPos;
-			fitAtual = novoFit;
-
-		} else {
-
-			deltaX = Util.vetorZero(numDimensoes);
-			deltaF = 0.0;
-
-		}
-
+		
+		calculaDeltaF(novoFit, fitAtual);
+		calculaDeltaX(numDimensoes, novaPos);
+		
+		posAtual = novaPos;
+	
 	}
 
 	private void calculaDeltaF(double novoFit, double fitAtual) {
-		deltaF = novoFit - fitAtual;
+		deltaF = fitAtual - novoFit;
 	}
 
 	private void calculaDeltaX(int numDimensoes, double[] novaPos) {
@@ -93,4 +77,8 @@ public class Peixe {
 
 	}
 
+	public void alimentar(double maiorVariacaoFitness) {
+		pesoAtual = pesoAtual + (deltaF / maiorVariacaoFitness);
+	}
 }
+
