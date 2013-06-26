@@ -1,6 +1,6 @@
-package cardume;
+package problem.functions;
 
-public class AbsProblema {
+public class SphereProblem {
 	
 	public double minPosition = -100;
 	public double maxPosition = 100;
@@ -17,7 +17,7 @@ public class AbsProblema {
 	
 	public int numIteracoes = 10000;
 	
-	public AbsProblema(){
+	public SphereProblem(){
 		stepInd = stepIndInicial;
 	}
 	
