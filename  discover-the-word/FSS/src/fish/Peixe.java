@@ -1,6 +1,6 @@
 package fish;
 
-import cardume.AbsProblema;
+import problem.functions.SphereProblem;
 import util.Util;
 
 public class Peixe {
@@ -13,9 +13,9 @@ public class Peixe {
 	public double deltaF;
 	public double[] deltaX;
 
-	private AbsProblema problema;
+	private SphereProblem problema;
 
-	public Peixe(AbsProblema problema) {
+	public Peixe(SphereProblem problema) {
 		this.problema = problema;
 		iniciarPeixe();
 	}

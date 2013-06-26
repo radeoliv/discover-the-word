@@ -1,11 +1,11 @@
 package teste;
 
-import cardume.AbsProblema;
-import cardume.Cardume;
+import problem.functions.SphereProblem;
+import fish.Cardume;
 
 public class Main {
 	public static void main(String[] args) {
-		Cardume cardume = new Cardume(new AbsProblema());
+		Cardume cardume = new Cardume(new SphereProblem());
 		cardume.comecarPeixarada();
 	}
 }

@@ -1,20 +1,21 @@
-package cardume;
+package fish;
 
 import java.util.Arrays;
 
+import problem.functions.SphereProblem;
+
 import util.Util;
 
-import fish.Peixe;
 
 public class Cardume {
 	
 	Peixe[] cardume;
-	AbsProblema problema;
+	SphereProblem problema;
 	double pesoAtualCardume;
 	double melhorFit = Double.MAX_VALUE;
 	double melhorPos = Double.MAX_VALUE;
 	
-	public Cardume(AbsProblema problema){
+	public Cardume(SphereProblem problema){
 		this.problema = problema;
 		iniciarCardume();
 	}
