@@ -9,8 +9,8 @@ public class Escritor {
 	private BufferedWriter escritor;
 	private String path;
 	
-	public void inicie() throws IOException{
-		escritor = new BufferedWriter(new FileWriter(this.path, true));
+	public void inicie(boolean append) throws IOException{
+		escritor = new BufferedWriter(new FileWriter(this.path, append));
 	}
 	
 	public void escreva(String text) throws IOException{

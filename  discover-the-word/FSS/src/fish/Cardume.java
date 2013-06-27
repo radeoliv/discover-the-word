@@ -1,8 +1,10 @@
 package fish;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
-import problem.functions.SphereProblem;
+import problem.functions.AFunction;
+import problem.functions.SphereFunction;
 
 import util.Util;
 
@@ -10,12 +12,13 @@ import util.Util;
 public class Cardume {
 	
 	Peixe[] cardume;
-	SphereProblem problema;
+	public AFunction problema;
 	double pesoAtualCardume;
 	double melhorFit = Double.MAX_VALUE;
 	double melhorPos = Double.MAX_VALUE;
+	public ArrayList<Double> melhoresFitness = new ArrayList<Double>();
 	
-	public Cardume(SphereProblem problema){
+	public Cardume(AFunction problema){
 		this.problema = problema;
 		iniciarCardume();
 	}
@@ -34,6 +37,7 @@ public class Cardume {
 		for (int i = 0; i < numIteracoes; i++) {
 			iterarTodosPeixes();
 		}
+		
 	}
 	
 	private void iterarTodosPeixes() {
@@ -45,8 +49,9 @@ public class Cardume {
 			
 			if(peixe.fitAtual < melhorFit){
 				melhorFit = peixe.fitAtual;
-				System.out.println("Melhor fitness até o momento = " + melhorFit);
 			}
+			
+			melhoresFitness.add(melhorFit);
 			
 		}
 		
