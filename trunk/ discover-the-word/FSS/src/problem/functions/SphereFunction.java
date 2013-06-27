@@ -1,26 +1,20 @@
 package problem.functions;
 
-public class SphereProblem {
+public class SphereFunction extends AFunction{
 	
-	public double minPosition = -100;
-	public double maxPosition = 100;
-	
-	public int numDimensoes = 50;
-	public int numPeixes = 50;
-	
-	public double stepIndInicial = 0.1;
-	public double stepIndFinal = 0.00001;
-
-	public double stepInd;
-	
-	public double pesoInicial = 1.0;
-	
-	public int numIteracoes = 10000;
-	
-	public SphereProblem(){
+	public SphereFunction(){
+		minPosition = -100;
+		maxPosition = 100;
+		numDimensoes = 50;
+		numPeixes = 50;
+		stepIndInicial = 0.1;
+		stepIndFinal = 0.000001;
+		pesoInicial = 500;
+		numIteracoes = 10000;
 		stepInd = stepIndInicial;
 	}
 	
+	@Override
 	public double getFitness(double[] posicao){
 		double result = 0;
 		for (double d : posicao) {
@@ -35,16 +29,24 @@ public class SphereProblem {
 	 * @param antigoFit
 	 * @return
 	 */
+	@Override
 	public boolean esteFitnessEhMelhor(double novoFit, double antigoFit){
 		return novoFit < antigoFit;
 	}
 	
+	@Override
 	public void atualizarStepInd(){
 		stepInd += (stepIndInicial - stepIndFinal) / (double) numIteracoes;
 	}
 	
+	@Override
 	public boolean ehParada(int numIteracoes){
 		return numIteracoes >= this.numIteracoes;
+	}
+
+	@Override
+	public String getFunctionName() {
+		return "SphereFunction";
 	}
 	
 }

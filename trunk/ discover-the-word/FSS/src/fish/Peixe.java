@@ -1,6 +1,7 @@
 package fish;
 
-import problem.functions.SphereProblem;
+import problem.functions.AFunction;
+import problem.functions.SphereFunction;
 import util.Util;
 
 public class Peixe {
@@ -13,16 +14,16 @@ public class Peixe {
 	public double deltaF;
 	public double[] deltaX;
 
-	private SphereProblem problema;
+	private AFunction problema;
 
-	public Peixe(SphereProblem problema) {
+	public Peixe(AFunction problema) {
 		this.problema = problema;
 		iniciarPeixe();
 	}
 
 	public void iniciarPeixe() {
 		posAtual = Util.setInitState(problema.numDimensoes,
-				problema.minPosition, problema.maxPosition);
+				Math.abs(problema.minPosition/2.0), problema.maxPosition);
 		pesoAtual = problema.pesoInicial;
 	}
 	
@@ -79,6 +80,12 @@ public class Peixe {
 
 	public void alimentar(double maiorVariacaoFitness) {
 		pesoAtual = pesoAtual + (deltaF / maiorVariacaoFitness);
+		if(pesoAtual < problema.pesoMin){
+			pesoAtual = problema.pesoMin;
+		}
+		if(pesoAtual > problema.pesoMax){
+			pesoAtual = problema.pesoMax;
+		}
 	}
 }
 
